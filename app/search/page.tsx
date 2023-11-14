@@ -53,6 +53,7 @@ const fetchRestaurantsByParams = (searchParams: SearchParamsType) => {
       location: true,
       cuisine: true,
       slug: true,
+      reviews: true,
     },
   });
 };

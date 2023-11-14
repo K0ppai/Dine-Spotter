@@ -6,7 +6,7 @@ import Images from './components/Images';
 import Description from './components/Description';
 import Rating from './components/Rating';
 import Title from './components/Title';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Review } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -16,9 +16,10 @@ interface Restaurant {
   name: string;
   images: string[];
   description: string;
+  reviews: Review[];
 }
 
-const fetchRestaurant = async (slug: string):Promise<Restaurant> => {
+const fetchRestaurant = async (slug: string): Promise<Restaurant> => {
   const restaurant = await prisma.restaurant.findUnique({
     where: {
       slug,
@@ -29,11 +30,12 @@ const fetchRestaurant = async (slug: string):Promise<Restaurant> => {
       images: true,
       description: true,
       slug: true,
+      reviews: true,
     },
   });
 
   if (!restaurant) {
-    throw new Error("Restaurant not found");
+    throw new Error('Restaurant not found');
   }
 
   return restaurant;
@@ -45,12 +47,12 @@ const DetailPage = async ({ params }: { params: { slug: string } }) => {
   return (
     <>
       <div className="bg-white w-[70%] rounded p-3 shadow">
-        <RestaurantNavBar slug={restaurant.slug}/>
-        <Title name={restaurant.name}/>
-        <Rating />
-        <Description description={restaurant.description}/>
-        <Images images={restaurant.images}/>
-        <Reviews />
+        <RestaurantNavBar slug={restaurant.slug} />
+        <Title name={restaurant.name} />
+        <Rating reviews={restaurant.reviews} />
+        <Description description={restaurant.description} />
+        <Images images={restaurant.images} />
+        <Reviews reviews={restaurant.reviews} />
       </div>
       <div className="w-[27%] relative text-reg">
         <ReservationCard />
