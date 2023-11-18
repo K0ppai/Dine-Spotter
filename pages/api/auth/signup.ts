@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import validator from 'validator';
+import bcrypt from 'bcrypt';
+import * as jose from 'jose';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -56,7 +58,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({ errorMessages: 'Email already exists' });
     }
 
-    res.status(200).json({ name: 'This is sign up' });
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const user = await prisma.user.create({
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password: hashedPassword,
+        phone,
+        city,
+      },
+    });
+
+    res.status(200).json({ response: user, status: 200 });
   }
 };
 

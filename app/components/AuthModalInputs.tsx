@@ -27,6 +27,7 @@ const AuthModalInputs = ({ handleChange, inputs, isSignIn }: PropsType) => {
             onChange={handleChange}
             value={inputs.firstName}
             name="firstName"
+            type="text"
           />
           <Input
             disabled={false}
@@ -36,6 +37,7 @@ const AuthModalInputs = ({ handleChange, inputs, isSignIn }: PropsType) => {
             onChange={handleChange}
             value={inputs.lastName}
             name="lastName"
+            type="text"
           />
         </div>
       )}
@@ -48,6 +50,7 @@ const AuthModalInputs = ({ handleChange, inputs, isSignIn }: PropsType) => {
           onChange={handleChange}
           value={inputs.email}
           name="email"
+          type="email"
         />
       </div>
       {isSignIn ? null : (
@@ -60,6 +63,7 @@ const AuthModalInputs = ({ handleChange, inputs, isSignIn }: PropsType) => {
             onChange={handleChange}
             value={inputs.city}
             name="city"
+            type='text'
           />
           <Input
             disabled={false}
@@ -69,6 +73,7 @@ const AuthModalInputs = ({ handleChange, inputs, isSignIn }: PropsType) => {
             onChange={handleChange}
             value={inputs.phone}
             name="phone"
+            type="tel"
           />
         </div>
       )}
@@ -81,6 +86,7 @@ const AuthModalInputs = ({ handleChange, inputs, isSignIn }: PropsType) => {
           onChange={handleChange}
           value={inputs.password}
           name="password"
+          type="password"
         />
       </div>
     </>
