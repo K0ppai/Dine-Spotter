@@ -15,6 +15,20 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
     return isSignIn ? signInContent : loginContent;
   };
 
+  const [inputs, setInputs] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    city: '',
+    phone: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInputs({ ...inputs, [name]: value });
+  };
+
   return (
     <>
       <Button
@@ -63,7 +77,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
               <h2 className="text-2xl font-light text-center">
                 {renderContent('Log Into Your Account', 'Create Your DineSpotter Account')}
               </h2>
-              <AuthModalInputs />
+              <AuthModalInputs handleChange={handleChange} inputs={inputs} isSignIn={isSignIn} />
             </div>
             <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
               {renderContent('Sign In', 'Create An Account')}
