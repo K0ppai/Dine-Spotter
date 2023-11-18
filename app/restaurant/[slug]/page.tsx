@@ -7,6 +7,7 @@ import Description from './components/Description';
 import Rating from './components/Rating';
 import Title from './components/Title';
 import { PrismaClient, Review } from '@prisma/client';
+import { notFound } from 'next/navigation';
 
 const prisma = new PrismaClient();
 
@@ -35,7 +36,7 @@ const fetchRestaurant = async (slug: string): Promise<Restaurant> => {
   });
 
   if (!restaurant) {
-    throw new Error('Restaurant not found');
+    notFound();
   }
 
   return restaurant;
