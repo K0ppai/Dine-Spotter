@@ -71,7 +71,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    res.status(200).json({ response: user, status: 200 });
+    const alg = 'HS256';
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+    const token = await new jose.SignJWT({email: user.email}).setProtectedHeader({alg}).setExpirationTime('24h').sign(secret);
+
+    res.status(200).json({ response: token, status: 200 });
   }
 };
 
