@@ -5,7 +5,7 @@ import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AuthModalInputs from './AuthModalInputs';
 
 export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
@@ -28,6 +28,27 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
+
+  const [disabled, setDisabled] = useState(true);
+
+  useEffect(() => {
+    const { firstName, lastName, email, city, phone, password } = inputs;
+    
+    if (isSignIn) {
+      if (email && password) {
+        setDisabled(false);
+      } else {
+        setDisabled(true);
+      }
+    } else {
+      if (firstName && lastName && email && city && phone && password) {
+        setDisabled(false);
+      } else {
+        setDisabled(true);
+      }
+    }
+  }
+  , [inputs]);
 
   return (
     <>
@@ -79,7 +100,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
               </h2>
               <AuthModalInputs handleChange={handleChange} inputs={inputs} isSignIn={isSignIn} />
             </div>
-            <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400">
+            <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400" disabled={disabled}>
               {renderContent('Sign In', 'Create An Account')}
             </button>
           </Typography>
