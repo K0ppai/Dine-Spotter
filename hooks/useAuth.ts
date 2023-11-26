@@ -13,15 +13,13 @@ const useAuth = () => {
         email,
         password,
       });
-
       setAuthState({ data: response.data, loading: false, error: null });
-    } catch (error: any) {
-      setAuthState((prev) => ({
-        ...prev,
-        error: error.response.data.errorMessage,
+    } catch (responseError: any) {
+      setAuthState({
+        data: null,
         loading: false,
-      }));
-      console.log(error);
+        error: responseError.response.data.errorMessages,
+      });
     }
   };
   const signout = () => {

@@ -86,7 +86,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
             p: 3,
             boxShadow: 'lg',
           }}
-          className="h-[550px] min-w-[300px]"
+          className="h-[550px] min-w-[300px] max-w-[300px]"
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
           <Typography
@@ -105,12 +105,17 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
           </Typography>
           <Typography id="modal-desc" textColor="text.tertiary">
             {loading ? (
-              <div className='flex justify-center min-h-[150px] items-center'>
+              <div className="flex justify-center min-h-[150px] items-center">
                 <CircularProgress />
               </div>
             ) : (
               <>
                 <div className="m-auto">
+                  {error ? (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-5">
+                      <span className="block sm:inline">{error}</span>
+                    </div>
+                  ) : null}
                   <h2 className="text-2xl font-light text-center">
                     {renderContent('Log Into Your Account', 'Create Your DineSpotter Account')}
                   </h2>
@@ -125,7 +130,6 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
                   disabled={disabled}
                   onClick={handleClick}
                 >
-                  {error}
                   {renderContent('Sign In', 'Create An Account')}
                 </button>
               </>
