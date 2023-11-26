@@ -76,7 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const token = await new jose.SignJWT({email: user.email}).setProtectedHeader({alg}).setExpirationTime('24h').sign(secret);
 
-    res.status(200).json({ response: token, status: 200 });
+    res.status(200).json(token);
   }
 };
 
