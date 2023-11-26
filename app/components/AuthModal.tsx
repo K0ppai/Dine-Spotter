@@ -13,6 +13,8 @@ import { CircularProgress } from '@mui/joy';
 
 export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
   const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const renderContent = (signInContent: string, loginContent: string) => {
     return isSignIn ? signInContent : loginContent;
@@ -52,10 +54,14 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
     }
   }, [inputs]);
 
-  const { signin } = useAuth();
+  const { signin, singup } = useAuth();
 
   const handleClick = () => {
-    signin({ email: inputs.email, password: inputs.password });
+    if (isSignIn) {
+      signin({ email: inputs.email, password: inputs.password }, handleClose);
+    } else {
+      singup(inputs, handleClose);
+    }
   };
 
   const { error, loading } = useContext(AuthenticationContext);
@@ -67,7 +73,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
           'bg-blue-400 text-white mr-3',
           'text-black bg-gray-200 hover:bg-gray-400',
         )} p-1 px-4 rounded`}
-        onClick={() => setOpen(true)}
+        onClick={handleOpen}
       >
         {renderContent('Sign In', 'Sign Up')}
       </Button>
@@ -75,7 +81,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={handleClose}
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
         <Sheet
@@ -86,7 +92,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
             p: 3,
             boxShadow: 'lg',
           }}
-          className="h-[550px] min-w-[300px] max-w-[300px]"
+          className={`h-[550px] ${isSignIn ? 'min-w-[300px] max-w-[300px]' : 'min-w-[500px]'}`}
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
           <Typography
@@ -109,7 +115,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
                 <CircularProgress />
               </div>
             ) : (
-              <>
+              <form>
                 <div className="m-auto">
                   {error ? (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-5">
@@ -129,10 +135,11 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
                   className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400"
                   disabled={disabled}
                   onClick={handleClick}
+                  type="submit"
                 >
                   {renderContent('Sign In', 'Create An Account')}
                 </button>
-              </>
+              </form>
             )}
           </Typography>
         </Sheet>
