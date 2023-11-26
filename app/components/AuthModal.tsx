@@ -5,8 +5,11 @@ import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AuthModalInputs from './AuthModalInputs';
+import useAuth from '@/hooks/useAuth';
+import { AuthenticationContext } from '../context/AuthContext';
+import { CircularProgress } from '@mui/joy';
 
 export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
   const [open, setOpen] = useState(false);
@@ -33,7 +36,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
 
   useEffect(() => {
     const { firstName, lastName, email, city, phone, password } = inputs;
-    
+
     if (isSignIn) {
       if (email && password) {
         setDisabled(false);
@@ -47,8 +50,15 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
         setDisabled(true);
       }
     }
-  }
-  , [inputs]);
+  }, [inputs]);
+
+  const { signin } = useAuth();
+
+  const handleClick = () => {
+    signin({ email: inputs.email, password: inputs.password });
+  };
+
+  const { error, loading } = useContext(AuthenticationContext);
 
   return (
     <>
@@ -76,7 +86,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
             p: 3,
             boxShadow: 'lg',
           }}
-          className="h-[550px]"
+          className="h-[550px] min-w-[300px]"
         >
           <ModalClose variant="plain" sx={{ m: 1 }} />
           <Typography
@@ -94,15 +104,32 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
             </div>
           </Typography>
           <Typography id="modal-desc" textColor="text.tertiary">
-            <div className="m-auto">
-              <h2 className="text-2xl font-light text-center">
-                {renderContent('Log Into Your Account', 'Create Your DineSpotter Account')}
-              </h2>
-              <AuthModalInputs handleChange={handleChange} inputs={inputs} isSignIn={isSignIn} />
-            </div>
-            <button className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400" disabled={disabled}>
-              {renderContent('Sign In', 'Create An Account')}
-            </button>
+            {loading ? (
+              <div className='flex justify-center min-h-[150px] items-center'>
+                <CircularProgress />
+              </div>
+            ) : (
+              <>
+                <div className="m-auto">
+                  <h2 className="text-2xl font-light text-center">
+                    {renderContent('Log Into Your Account', 'Create Your DineSpotter Account')}
+                  </h2>
+                  <AuthModalInputs
+                    handleChange={handleChange}
+                    inputs={inputs}
+                    isSignIn={isSignIn}
+                  />
+                </div>
+                <button
+                  className="uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400"
+                  disabled={disabled}
+                  onClick={handleClick}
+                >
+                  {error}
+                  {renderContent('Sign In', 'Create An Account')}
+                </button>
+              </>
+            )}
           </Typography>
         </Sheet>
       </Modal>
