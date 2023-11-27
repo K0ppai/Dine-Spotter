@@ -64,7 +64,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
     }
   };
 
-  const { error, loading } = useContext(AuthenticationContext);
+  const { error, loading, data } = useContext(AuthenticationContext);
 
   return (
     <>
@@ -109,13 +109,13 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
               </div>
             </div>
           </Typography>
-          <Typography id="modal-desc" textColor="text.tertiary">
+          <Typography id="modal-desc" component="form">
             {loading ? (
               <div className="flex justify-center min-h-[150px] items-center">
                 <CircularProgress />
               </div>
             ) : (
-              <form>
+              <>
                 <div className="m-auto">
                   {error ? (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-5">
@@ -139,7 +139,7 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
                 >
                   {renderContent('Sign In', 'Create An Account')}
                 </button>
-              </form>
+              </>
             )}
           </Typography>
         </Sheet>
