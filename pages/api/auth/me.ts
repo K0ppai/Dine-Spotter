@@ -28,7 +28,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  return res.status(200).json({ user });
+  if (!user) {
+    return res.status(401).json({ errorMessages: 'User not found' });
+  }
+
+  return res.status(200).json({
+    id: user.id,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
+    phone: user.phone,
+    city: user.city,
+  });
 };
 
 export default handler;
