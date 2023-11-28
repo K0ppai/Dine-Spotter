@@ -1,5 +1,6 @@
 import { AuthenticationContext } from '@/app/context/AuthContext';
 import axios from 'axios';
+import { deleteCookie } from 'cookies-next';
 import { useContext } from 'react';
 
 const useAuth = () => {
@@ -26,6 +27,7 @@ const useAuth = () => {
       });
     }
   };
+
   const singup = async (
     {
       firstName,
@@ -66,9 +68,15 @@ const useAuth = () => {
     }
   };
 
+  const signout = () => {
+    deleteCookie('jwt');
+    setAuthState({ data: null, loading: false, error: null });
+  };
+
   return {
     signin,
     singup,
+    signout,
   };
 };
 
