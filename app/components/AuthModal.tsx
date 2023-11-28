@@ -64,15 +64,14 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
     }
   };
 
-  const { error, loading, data } = useContext(AuthenticationContext);
+  const { error, loading } = useContext(AuthenticationContext);
 
   return (
-    <>
+    <div className="px-2">
       <Button
-        className={`${renderContent(
-          'bg-blue-400 text-white mr-3',
-          'text-black bg-gray-200 hover:bg-gray-400',
-        )} p-1 px-4 rounded`}
+        className={`${
+          isSignIn ? 'bg-blue-400 text-white mr-3' : 'text-black bg-gray-200 hover:bg-gray-400'
+        } p-1 px-4 rounded`}
         onClick={handleOpen}
       >
         {renderContent('Sign In', 'Sign Up')}
@@ -144,6 +143,6 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
           </Typography>
         </Sheet>
       </Modal>
-    </>
+    </div>
   );
 }
