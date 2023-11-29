@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
@@ -68,14 +67,14 @@ export default function AuthModal({ isSignIn }: { isSignIn: boolean }) {
 
   return (
     <div className="px-2">
-      <Button
+      <button
         className={`${
           isSignIn ? 'bg-blue-400 text-white mr-3' : 'text-black bg-gray-200 hover:bg-gray-400'
         } p-1 px-4 rounded`}
         onClick={handleOpen}
       >
         {renderContent('Sign In', 'Sign Up')}
-      </Button>
+      </button>
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-desc"
