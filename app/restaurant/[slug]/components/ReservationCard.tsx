@@ -1,4 +1,5 @@
-"use client"
+'use client';
+import partySize from '@/data/partySize';
 
 const ReservationCard = () => {
   return (
@@ -9,8 +10,11 @@ const ReservationCard = () => {
       <div className="my-3 flex flex-col">
         <label htmlFor="">Party size</label>
         <select name="" className="py-3 border-b font-light" id="">
-          <option value="">1 person</option>
-          <option value="">2 people</option>
+          {partySize.map((size, index) => (
+            <option key={index} value={size.value}>
+              {size.label}
+            </option>
+          ))}
         </select>
       </div>
       <div className="flex justify-between">
@@ -33,6 +37,6 @@ const ReservationCard = () => {
       </div>
     </div>
   );
-}
+};
 
-export default ReservationCard
+export default ReservationCard;
