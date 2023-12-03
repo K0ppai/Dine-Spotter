@@ -21,11 +21,11 @@ model Restaurant {
   cuisine_id  Int
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
+  bookings    Booking[]
   Item        Item[]
   cuisine     Cuisine   @relation(fields: [cuisine_id], references: [id])
   location    Location  @relation(fields: [location_id], references: [id])
   reviews     Review[]
-  bookings    Booking[]
   tables      Table[]
 }
 
@@ -77,9 +77,9 @@ model User {
   city       String
   email      String   @unique
   phone      String
-  password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  password   String
   reviews    Review[]
 }
 
@@ -97,25 +97,26 @@ model Booking {
   updated_at        DateTime          @updatedAt
   restaurant_id     Int
   restaurant        Restaurant        @relation(fields: [restaurant_id], references: [id])
-  tables   BookingsOnTable[]
+  tables            BookingsOnTable[]
 }
 
 model Table {
-  id              Int               @id @default(autoincrement())
-  seats           Int
-  restaurant_id   Int
-  restaurant      Restaurant        @relation(fields: [restaurant_id], references: [id])
-  bookings BookingsOnTable[]
+  id            Int               @id @default(autoincrement())
+  seats         Int
+  restaurant_id Int
+  bookings      BookingsOnTable[]
+  restaurant    Restaurant        @relation(fields: [restaurant_id], references: [id])
 }
 
 model BookingsOnTable {
-  @@id([booking_id, table_id])
   booking_id Int
   table_id   Int
-  booking    Booking @relation(fields: [booking_id], references: [id])
-  table      Table   @relation(fields: [table_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  booking    Booking  @relation(fields: [booking_id], references: [id])
+  table      Table    @relation(fields: [table_id], references: [id])
+
+  @@id([booking_id, table_id])
 }
 
 enum PRICE {
