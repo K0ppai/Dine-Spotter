@@ -70,7 +70,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     };
   });
 
-  return res.json({ searchTime, bookings, bookingTablesObj, tables, searchTimesWithTables });
+  searchTimesWithTables.forEach((t) => {
+    t.tables = t.tables.filter((table) => {
+      if (bookingTablesObj[t.date.toISOString()]) {
+        return !bookingTablesObj[t.date.toISOString()][table.id]
+      }
+      return true;
+    });
+  });
+
+  return res.json({ searchTime, bookings, bookingTablesObj, searchTimesWithTables });
 };
 
 export default handler;
