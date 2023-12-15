@@ -53,6 +53,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
     select: {
       tables: true,
+      open_time: true,
+      close_time: true,
     },
   });
 
@@ -73,13 +75,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   searchTimesWithTables.forEach((t) => {
     t.tables = t.tables.filter((table) => {
       if (bookingTablesObj[t.date.toISOString()]) {
-        return !bookingTablesObj[t.date.toISOString()][table.id]
+        return !bookingTablesObj[t.date.toISOString()][table.id];
       }
       return true;
     });
   });
 
-  return res.json({ searchTime, bookings, bookingTablesObj, searchTimesWithTables });
+  const availability = searchTimesWithTables.map((t) => {
+    const sumSeat = t.tables.reduce((sum, table) => {
+      return sum + table.seats;
+    }, 0);
+
+    return {
+      time: t.time,
+      available: sumSeat >= Number(partySize),
+    };
+  }).filter((time) => {
+    const timeAfterOpenHour = new Date(`${day}T${time.time}`) >= new Date(`${day}T${restaurant.open_time}`);
+    const timeBeforeCloseHour = new Date(`${day}T${time.time}`) <= new Date(`${day}T${restaurant.close_time}`);
+
+    return timeAfterOpenHour && timeBeforeCloseHour;
+  });
+
+  return res.json({ availability });
 };
 
 export default handler;
