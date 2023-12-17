@@ -5,4 +5,4 @@ const partySize = [
   })),
 ];
 
-export default partySize;
+export { partySize };

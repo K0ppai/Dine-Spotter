@@ -1,18 +1,36 @@
 'use client';
-import partySize from '@/data/partySize';
+import { partySize as partySizes } from '@/data/partySize';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { times } from '@/data';
+import { useAvailabilities } from '@/hooks/useAvailabilities';
 
-const ReservationCard = ({ openTime, closeTime }: { openTime: string; closeTime: string }) => {
+const ReservationCard = ({
+  openTime,
+  closeTime,
+  slug,
+}: {
+  openTime: string;
+  closeTime: string;
+  slug: string;
+}) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [partySize, setPartySize] = useState<string>('2');
+  const [time, setTime] = useState<string>('00:00:00.000Z');
+  const [day, setDay] = useState(new Date().toISOString().split('T')[0]);
+  const { fetchAvailabilities } = useAvailabilities();
 
   const handleChangeDate = (date: Date | null) => {
     if (date) {
+      setDay(date);
       return setSelectedDate(date);
     }
     return setSelectedDate(null);
   };
+
+  const handleClick = () => {
+    fetchAvailabilities({slug, day, time, partySize});
+  }
 
   const filterTimeByRestaurantOpenWindow = () => {
     const openTimes: typeof times = [];
@@ -41,8 +59,15 @@ const ReservationCard = ({ openTime, closeTime }: { openTime: string; closeTime:
       </div>
       <div className="my-3 flex flex-col">
         <label htmlFor="">Party size</label>
-        <select name="" className="py-3 border-b font-light" id="">
-          {partySize.map((size, index) => (
+        <select
+          name=""
+          className="py-3 border-b font-light"
+          id=""
+          onChange={(e) => {
+            setPartySize(e.target.value);
+          }}
+        >
+          {partySizes.map((size, index) => (
             <option key={index} value={size.value}>
               {size.label}
             </option>
@@ -62,7 +87,14 @@ const ReservationCard = ({ openTime, closeTime }: { openTime: string; closeTime:
         </div>
         <div className="flex flex-col w-[48%]">
           <label htmlFor="">Time</label>
-          <select name="" id="" className="py-3 border-b font-light">
+          <select
+            name=""
+            id=""
+            className="py-3 border-b font-light"
+            onChange={(e) => {
+              setTime(e.target.value);
+            }}
+          >
             {filterTimeByRestaurantOpenWindow().map((time, index) => (
               <option key={index} value={time.time}>
                 {time.displayTime}
@@ -72,7 +104,10 @@ const ReservationCard = ({ openTime, closeTime }: { openTime: string; closeTime:
         </div>
       </div>
       <div className="mt-5">
-        <button className="bg-red-600 rounded w-full px-4 text-white font-bold h-16">
+        <button
+          className="bg-red-600 rounded w-full px-4 text-white font-bold h-16"
+          onClick={handleClick}
+        >
           Find a Time
         </button>
       </div>
