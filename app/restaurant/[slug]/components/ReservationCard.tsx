@@ -17,12 +17,12 @@ const ReservationCard = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [partySize, setPartySize] = useState<string>('2');
   const [time, setTime] = useState<string>('00:00:00.000Z');
-  const [day, setDay] = useState(new Date().toISOString().split('T')[0]);
+  const [day, setDay] = useState<string>(new Date().toISOString().split('T')[0]);
   const { fetchAvailabilities } = useAvailabilities();
 
   const handleChangeDate = (date: Date | null) => {
     if (date) {
-      setDay(date);
+      setDay(date.toISOString().split('T')[0]);
       return setSelectedDate(date);
     }
     return setSelectedDate(null);

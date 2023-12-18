@@ -17,7 +17,7 @@ export const useAvailabilities = () => {
     time: string;
     partySize: string;
   }) => {
-    console.log(slug, day, time, partySize);
+    console.log({slug, day, time, partySize});
     return;
     setLoading(true);
 
