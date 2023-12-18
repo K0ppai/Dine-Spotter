@@ -4,6 +4,8 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { times } from '@/data';
 import { useAvailabilities } from '@/hooks/useAvailabilities';
+import { CircularProgress } from '@mui/joy';
+import Link from 'next/link';
 
 const ReservationCard = ({
   openTime,
@@ -16,9 +18,9 @@ const ReservationCard = ({
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [partySize, setPartySize] = useState<string>('2');
-  const [time, setTime] = useState<string>('00:00:00.000Z');
+  const [time, setTime] = useState<string>(openTime);
   const [day, setDay] = useState<string>(new Date().toISOString().split('T')[0]);
-  const { fetchAvailabilities } = useAvailabilities();
+  const { data, loading, fetchAvailabilities } = useAvailabilities();
 
   const handleChangeDate = (date: Date | null) => {
     if (date) {
@@ -29,8 +31,8 @@ const ReservationCard = ({
   };
 
   const handleClick = () => {
-    fetchAvailabilities({slug, day, time, partySize});
-  }
+    fetchAvailabilities({ slug, day, time, partySize });
+  };
 
   const filterTimeByRestaurantOpenWindow = () => {
     const openTimes: typeof times = [];
@@ -108,9 +110,29 @@ const ReservationCard = ({
           className="bg-red-600 rounded w-full px-4 text-white font-bold h-16"
           onClick={handleClick}
         >
-          Find a Time
+          {loading ? <CircularProgress color='neutral' /> : 'Find a Table'}
         </button>
       </div>
+      {data && data.length ? (
+        <div className="mt-4">
+          <p className="text-red">Select a time</p>
+          <div className="flex flex-wrap mt-2">
+            {data.map((time, index) => {
+              return time.available ? (
+                <Link
+                  href={`/reserve/${slug}?date=${day}T${time.time}&partySize=${partySize}`}
+                  className="bg-red-600 text-white p-2 w-24 text-center mb-3 rounded mr-3 font-bold text-sm"
+                  key={index}
+                >
+                  {time.time}
+                </Link>
+              ) : (
+                <p className="bg-gray-400 p-2 w-24 h-2 rounded mr-3" key={index}></p>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export const useAvailabilities = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<{ time: string; available: boolean }[] | null>(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -17,21 +17,18 @@ export const useAvailabilities = () => {
     time: string;
     partySize: string;
   }) => {
-    console.log({slug, day, time, partySize});
-    return;
+    console.log({ slug, day, time, partySize });
+    // return;
     setLoading(true);
 
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/restaurant/${slug}/availability`,
-        {
-          params: {
-            day,
-            time,
-            partySize,
-          },
+      const response = await axios.get(`http://localhost:3000/api/restaurant/${slug}/availability`, {
+        params: {
+          day,
+          time,
+          partySize,
         },
-      );
+      });
       setData(response.data);
       setLoading(false);
     } catch (responseError: any) {
