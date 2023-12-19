@@ -1,8 +1,9 @@
+import { Time } from '@/utils/convertToDisplayTime';
 import axios from 'axios';
 import { useState } from 'react';
 
 export const useAvailabilities = () => {
-  const [data, setData] = useState<{ time: string; available: boolean }[] | null>(null);
+  const [data, setData] = useState<{ time: Time; available: boolean }[] | null>(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -14,11 +15,9 @@ export const useAvailabilities = () => {
   }: {
     slug: string;
     day: string;
-    time: string;
+    time: Time;
     partySize: string;
   }) => {
-    console.log({ slug, day, time, partySize });
-    // return;
     setLoading(true);
 
     try {

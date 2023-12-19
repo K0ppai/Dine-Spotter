@@ -6,6 +6,7 @@ import { times } from '@/data';
 import { useAvailabilities } from '@/hooks/useAvailabilities';
 import { CircularProgress } from '@mui/joy';
 import Link from 'next/link';
+import { Time, convertToDisplayTime } from '@/utils/convertToDisplayTime';
 
 const ReservationCard = ({
   openTime,
@@ -21,6 +22,7 @@ const ReservationCard = ({
   const [time, setTime] = useState<string>(openTime);
   const [day, setDay] = useState<string>(new Date().toISOString().split('T')[0]);
   const { data, loading, fetchAvailabilities } = useAvailabilities();
+  console.log(data);
 
   const handleChangeDate = (date: Date | null) => {
     if (date) {
@@ -110,21 +112,21 @@ const ReservationCard = ({
           className="bg-red-600 rounded w-full px-4 text-white font-bold h-16"
           onClick={handleClick}
         >
-          {loading ? <CircularProgress color='neutral' /> : 'Find a Table'}
+          {loading ? <CircularProgress /> : 'Find a Table'}
         </button>
       </div>
       {data && data.length ? (
         <div className="mt-4">
           <p className="text-red">Select a time</p>
           <div className="flex flex-wrap mt-2">
-            {data.map((time, index) => {
-              return time.available ? (
+            {data.map((t, index) => {
+              return t.available ? (
                 <Link
-                  href={`/reserve/${slug}?date=${day}T${time.time}&partySize=${partySize}`}
+                  href={`/reserve/${slug}?date=${day}T${t.time}&partySize=${partySize}`}
                   className="bg-red-600 text-white p-2 w-24 text-center mb-3 rounded mr-3 font-bold text-sm"
                   key={index}
                 >
-                  {time.time}
+                  {convertToDisplayTime(t.time)}
                 </Link>
               ) : (
                 <p className="bg-gray-400 p-2 w-24 h-2 rounded mr-3" key={index}></p>
