@@ -16,19 +16,23 @@ const Form = ({ slug, date, partySize }: { slug: string; date: string; partySize
   });
   const [day, time] = date.split('T');
   const { loading, postReservations } = useReservations();
+  const [bookFulfilled, setBookFulfilled] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const handleClick = () => {
-    postReservations({
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const reservation = await postReservations({
       slug,
       day,
       time,
       partySize,
       ...inputs,
+      setBookFulfilled,
     });
+    console.log(reservation);
   };
 
   useEffect(() => {
@@ -44,66 +48,72 @@ const Form = ({ slug, date, partySize }: { slug: string; date: string; partySize
   }, [inputs]);
 
   return (
-    <div className="mt-10 flex flex-wrap justify-between w-[660px]">
-      <input
-        type="text"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="First name"
-        name="bookerFirstName"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Last name"
-        name="bookerLastName"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Phone number"
-        name="bookerPhone"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Email"
-        name="bookerEmail"
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Occasion (optional)"
-        name="bookerOcassion"
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        className="border rounded p-3 w-80 mb-4"
-        placeholder="Requests (optional)"
-        name="bookerRequest"
-        onChange={handleChange}
-      />
-      <button
-        className="bg-red-600 w-full p-3 text-white font-bold rounded disabled:bg-gray-300"
-        disabled={disabled}
-        onClick={handleClick}
-      >
-        {loading ? <CircularProgress /> : 'Complete reservation'}
-      </button>
-      <p className="mt-4 text-sm">
-        By clicking “Complete reservation” you agree to the OpenTable Terms of Use and Privacy
-        Policy. Standard text message rates may apply. You may opt out of receiving text messages at
-        any time.
-      </p>
-    </div>
+    <form className="mt-10 flex flex-wrap justify-between w-[660px]" onSubmit={handleSubmit}>
+      {bookFulfilled ? (
+        <p className="text-green-500">Your reservation was booked successfully. Thank you.</p>
+      ) : (
+        <>
+          <input
+            type="text"
+            className="border rounded p-3 w-80 mb-4"
+            placeholder="First name"
+            name="bookerFirstName"
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            className="border rounded p-3 w-80 mb-4"
+            placeholder="Last name"
+            name="bookerLastName"
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="number"
+            className="border rounded p-3 w-80 mb-4"
+            placeholder="Phone number"
+            name="bookerPhone"
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="email"
+            className="border rounded p-3 w-80 mb-4"
+            placeholder="Email"
+            name="bookerEmail"
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            className="border rounded p-3 w-80 mb-4"
+            placeholder="Occasion (optional)"
+            name="bookerOcassion"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            className="border rounded p-3 w-80 mb-4"
+            placeholder="Requests (optional)"
+            name="bookerRequest"
+            onChange={handleChange}
+          />
+          <button
+            className="bg-red-600 w-full p-3 text-white font-bold rounded disabled:bg-gray-300"
+            disabled={disabled || loading}
+            type="submit"
+          >
+            {loading ? <CircularProgress color="danger" variant="soft" /> : 'Complete reservation'}
+          </button>
+          <p className="mt-4 text-sm">
+            By clicking “Complete reservation” you agree to the OpenTable Terms of Use and Privacy
+            Policy. Standard text message rates may apply. You may opt out of receiving text
+            messages at any time.
+          </p>
+        </>
+      )}
+    </form>
   );
 };
 

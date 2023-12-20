@@ -18,6 +18,7 @@ export const useReservations = () => {
     bookerEmail,
     bookerOcassion,
     bookerRequest,
+    setBookFulfilled,
   }: {
     slug: string;
     day: string;
@@ -29,6 +30,7 @@ export const useReservations = () => {
     bookerEmail: string;
     bookerOcassion: string;
     bookerRequest: string;
+    setBookFulfilled: React.Dispatch<React.SetStateAction<boolean>>;
   }) => {
     setLoading(true);
 
@@ -53,6 +55,7 @@ export const useReservations = () => {
       );
       setData(response.data);
       setLoading(false);
+      setBookFulfilled(true);
     } catch (responseError: any) {
       setError(responseError.response.data.errorMessages);
       setLoading(false);
