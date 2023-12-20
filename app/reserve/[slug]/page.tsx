@@ -2,6 +2,8 @@ import Header from './components/Header';
 import Form from './components/Form';
 
 import type { Metadata } from 'next';
+import { PrismaClient } from '@prisma/client';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Reserve',
@@ -11,13 +13,41 @@ export const metadata: Metadata = {
   },
 };
 
+const prisma = new PrismaClient();
 
-const ReservationPage = () => {
+const fetchRestaurant = async (slug: string) => {
+  const restaurant = await prisma.restaurant.findUnique({
+    where: {
+      slug,
+    },
+  });
+
+  if (!restaurant) {
+    return notFound();
+  }
+
+  return restaurant;
+};
+
+const ReservationPage = async ({
+  params,
+  searchParams,
+}: {
+  params: {
+    slug: string;
+  },
+  searchParams: {
+    date: string;
+    partySize: string;
+  }
+}) => {
+  const restaurant = await fetchRestaurant(params.slug);
+
   return (
     <>
       <div className="border-t h-screen">
         <div className="py-9 w-3/5 m-auto">
-          <Header />
+          <Header name={restaurant?.name} image={restaurant?.main_image} partySize={searchParams.partySize} date={searchParams.date} />
           <Form />
         </div>
       </div>
