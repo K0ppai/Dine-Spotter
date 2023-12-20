@@ -35,11 +35,11 @@ const ReservationPage = async ({
 }: {
   params: {
     slug: string;
-  },
+  };
   searchParams: {
     date: string;
     partySize: string;
-  }
+  };
 }) => {
   const restaurant = await fetchRestaurant(params.slug);
 
@@ -47,8 +47,13 @@ const ReservationPage = async ({
     <>
       <div className="border-t h-screen">
         <div className="py-9 w-3/5 m-auto">
-          <Header name={restaurant?.name} image={restaurant?.main_image} partySize={searchParams.partySize} date={searchParams.date} />
-          <Form />
+          <Header
+            name={restaurant?.name}
+            image={restaurant?.main_image}
+            partySize={searchParams.partySize}
+            date={searchParams.date}
+          />
+          <Form slug={params.slug} partySize={searchParams.partySize} date={searchParams.date} />
         </div>
       </div>
     </>
