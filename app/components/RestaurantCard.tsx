@@ -28,7 +28,6 @@ const RestaurantCard = ({ restaurant }: Props) => {
             <Price price={restaurant.price} />
             <p>Toronto</p>
           </div>
-          <p className="text-sm mt-1 font-bold">Booked 3 times today</p>
         </div>
       </Link>
     </div>
