@@ -35,13 +35,13 @@
 
 ### Tech Stack <a name="tech-stack"></a>
 
-  <summary>Client</summary>
+  <label>Client</label>
   <ul>
     <li><a href="https://www.typescriptlang.org/">NEXT.js</a></li>
     <li><a href="https://nextjs.org/">TypeScript</a></li>
     <li><a href="https://tailwindcss.com/">Tailwind CSS</a></li>
   </ul>
-  <summary>Server</summary>
+  <label>Server</label>
   <ul>
     <li><a href="https://tailwindcss.com/">Prisma</a></li>
   </ul>
