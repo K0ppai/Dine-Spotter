@@ -134,7 +134,7 @@ If you like this project, don't forget to give it a ⭐️!
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-I would like to give credit to the [opentable.com](https://www.opentable.com/) website for the designs and systems.
+I would like to give credit to the [opentable.com](https://www.opentable.com/) website for the designs and systems and the original author of the course [Laith Harb](https://github.com/harblaith7).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
