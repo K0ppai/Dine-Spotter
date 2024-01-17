@@ -14,6 +14,7 @@
   - [🛠 Built With](#built-with)
     - [Tech Stack](#tech-stack)
     - [Key Features](#key-features)
+  - [🚀 Live Demo](#live-demo)
 - [💻 Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
@@ -35,7 +36,8 @@
 
 ### Tech Stack <a name="tech-stack"></a>
 
-  <label>Client</label>
+<label>Client</label>
+
   <ul>
     <li><a href="https://www.typescriptlang.org/">NEXT.js</a></li>
     <li><a href="https://nextjs.org/">TypeScript</a></li>
@@ -54,6 +56,12 @@
 - **Availability system for the desired booking time**
 - **Booking system with your party sizes, time and day at your favourite restaurant**
 - **Authentication sytem**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## 🚀 Live Demo <a name="live-demo"></a>
+
+- [Live Link](https://dine-spotter.vercel.app/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
