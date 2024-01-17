@@ -21,13 +21,16 @@ export const useAvailabilities = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get(`http://localhost:3000/api/restaurant/${slug}/availability`, {
-        params: {
-          day,
-          time,
-          partySize,
+      const response = await axios.get(
+        `https://dine-spotter.vercel.app/api/restaurant/${slug}/availability`,
+        {
+          params: {
+            day,
+            time,
+            partySize,
+          },
         },
-      });
+      );
       setData(response.data);
       setLoading(false);
     } catch (responseError: any) {

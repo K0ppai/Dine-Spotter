@@ -32,7 +32,6 @@ const Form = ({ slug, date, partySize }: { slug: string; date: string; partySize
       ...inputs,
       setBookFulfilled,
     });
-    console.log(reservation);
   };
 
   useEffect(() => {

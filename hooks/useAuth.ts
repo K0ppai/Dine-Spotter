@@ -13,7 +13,7 @@ const useAuth = () => {
     setAuthState((prev) => ({ ...prev, loading: true }));
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/signin', {
+      const response = await axios.post('https://dine-spotter.vercel.app/api/auth/signin', {
         email,
         password,
       });
@@ -49,7 +49,7 @@ const useAuth = () => {
     setAuthState((prev) => ({ ...prev, loading: true }));
 
     try {
-      await axios.post('http://localhost:3000/api/auth/signup', {
+      await axios.post('https://dine-spotter.vercel.app/api/auth/signup', {
         firstName,
         lastName,
         email,

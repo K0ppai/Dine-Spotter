@@ -36,7 +36,7 @@ export const useReservations = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/restaurant/${slug}/reserve`,
+        `https://dine-spotter.vercel.app/api/restaurant/${slug}/reserve`,
         {
           bookerFirstName,
           bookerLastName,
