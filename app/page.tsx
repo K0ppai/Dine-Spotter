@@ -2,7 +2,7 @@ import { Cuisine, Location, PRICE, PrismaClient, Review } from '@prisma/client';
 import Header from './components/Header';
 import RestaurantCard from './components/RestaurantCard';
 
-export const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export interface RestaurantCardType {
   id: number;
