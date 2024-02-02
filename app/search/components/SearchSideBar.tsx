@@ -31,7 +31,7 @@ const SearchSideBar = async ({
   ];
 
   return (
-    <div className="w-1/5">
+    <div className="w-1/5 pr-2">
       <div className="border-b pb-4 flex flex-col">
         <h1 className="mb-2">Region</h1>
         {locations.map((location) => (
